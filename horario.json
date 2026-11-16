@@ -1,0 +1,220 @@
+{
+  "versao": 1,
+  "atualizado": "2026-11-13T15:00:00+00:00",
+  "fonte": "Horário semanal enviado pela secretaria",
+  "disciplinas": {
+    "sql": {
+      "nome": "Fundamentos da linguagem SQL",
+      "abrev": "SQL",
+      "cor": 1
+    },
+    "cpp": {
+      "nome": "Programação em C/C++",
+      "abrev": "C/C++",
+      "cor": 2
+    },
+    "mat": {
+      "nome": "Matemática",
+      "abrev": "Mat",
+      "cor": 3
+    },
+    "ing": {
+      "nome": "Inglês",
+      "abrev": "Ing",
+      "cor": 4
+    },
+    "por": {
+      "nome": "Português",
+      "abrev": "Port",
+      "cor": 5
+    },
+    "ai": {
+      "nome": "Área de Integração",
+      "abrev": "AI",
+      "cor": 6
+    }
+  },
+  "turmas": {
+    "2-PI02": {
+      "semana": "2026-11-16",
+      "aulas": [
+        {
+          "dia": "2026-11-16",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "sql",
+          "modulo": "10788"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "sql",
+          "modulo": "10788"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "ai"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "cpp",
+          "modulo": "0810"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "cpp",
+          "modulo": "0810"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "sql",
+          "modulo": "10788"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "sql",
+          "modulo": "10788"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "ing"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "sql",
+          "modulo": "10788"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "sql",
+          "modulo": "10788"
+        }
+      ]
+    }
+  }
+}

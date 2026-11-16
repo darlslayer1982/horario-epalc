@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Horário EPALC</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&display=swap">
+<style>
+/* Layout: coluna única pensada para o telemóvel; cabeçalho fixo com turma e dias; aulas como linhas de um livro de ponto */
+:root{
+  --bg:#eef2f5; --surface:#ffffff; --ink:#15212c; --muted:#5a6774; --line:#d9e0e7;
+  --accent:#0d5d8f; --accent-soft:#dcebf5; --accent-ink:#ffffff; --now:#c2410c;
+  --c1:#5a48c2; --c2:#6f7b88; --c3:#1489c4; --c4:#3550d1; --c5:#d63d33; --c6:#2f8f3a; --c7:#b7791f; --c8:#b03a8a;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f161d; --surface:#17212b; --ink:#e7edf2; --muted:#9aa8b5; --line:#283643;
+    --accent:#5fb0e6; --accent-soft:#16344a; --accent-ink:#0b1a24; --now:#fb923c;
+    --c1:#9a8cf0; --c2:#a3aebb; --c3:#4fb8ec; --c4:#7d93f5; --c5:#f2766d; --c6:#6cc777; --c7:#e0a64a; --c8:#e07bbd;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f161d; --surface:#17212b; --ink:#e7edf2; --muted:#9aa8b5; --line:#283643;
+  --accent:#5fb0e6; --accent-soft:#16344a; --accent-ink:#0b1a24; --now:#fb923c;
+  --c1:#9a8cf0; --c2:#a3aebb; --c3:#4fb8ec; --c4:#7d93f5; --c5:#f2766d; --c6:#6cc777; --c7:#e0a64a; --c8:#e07bbd;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:560px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* Cabeçalho */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+header .wrap{display:grid;gap:12px;padding-block:14px 12px}
+.brand{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;min-width:0}
+.logo img{display:block;height:44px;width:auto;flex:none}
+.logo .eyebrow{border-left:1px solid var(--line);padding-left:12px;font-family:var(--f-display);font-weight:800;font-size:22px;letter-spacing:-.01em;text-transform:none;color:var(--ink);line-height:44px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .logo img{filter:invert(1)}}
+:root[data-theme="dark"] .logo img{filter:invert(1)}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.turma{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h1{font-family:var(--f-display);font-weight:800;font-size:32px;line-height:1;margin:0;letter-spacing:-.02em}
+.semana{color:var(--muted);font-size:14px}
+select{min-width:0;max-width:8.5rem;flex:0 1 auto;font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.day{font:inherit;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:6px 0 7px;cursor:pointer;display:grid;justify-items:center;gap:0;position:relative}
+.day b{font-size:13px;font-weight:700;color:var(--muted)}
+.day span{font-family:var(--f-display);font-weight:600;font-size:20px;line-height:1.1;font-variant-numeric:tabular-nums}
+.day[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.day[aria-selected="true"] b{color:var(--accent-ink);opacity:.85}
+.day .hoje{position:absolute;top:4px;right:6px;width:6px;height:6px;border-radius:50%;background:var(--now)}
+
+.seg{display:inline-grid;grid-template-columns:1fr 1fr;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px;justify-self:start}
+.seg button{font:inherit;font-size:14px;font-weight:700;border:0;background:transparent;color:var(--muted);padding:5px 16px;border-radius:999px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgb(0 0 0 / .12)}
+
+main .wrap{display:grid;gap:18px;padding-block:18px 32px}
+
+/* A seguir */
+.next{background:var(--accent-soft);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px}
+.next .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.next h2{font-family:var(--f-display);font-weight:800;font-size:22px;line-height:1.15;margin:0;text-wrap:balance}
+.next p{margin:0;color:var(--muted);font-size:15px;font-variant-numeric:tabular-nums}
+.pill{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;background:var(--surface);color:var(--accent);white-space:nowrap}
+.pill.live{background:var(--now);color:#fff}
+
+/* Lista do dia */
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.dayhead h3{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0}
+.dayhead small{color:var(--muted);font-size:14px}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.lesson{display:grid;grid-template-columns:58px 1fr;gap:14px;padding:12px 14px;border-top:1px solid var(--line);align-items:start}
+.lesson:first-child{border-top:0}
+.time{font-variant-numeric:tabular-nums;display:grid;line-height:1.25}
+.time b{font-size:17px}
+.time span{font-size:13px;color:var(--muted)}
+.subj{display:grid;gap:3px;min-width:0}
+.subj strong{font-size:17px;line-height:1.25;display:flex;align-items:center;gap:8px}
+.sw{flex:none;width:12px;height:12px;border-radius:3px;background:var(--c)}
+.meta{font-size:13px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.lesson.is-now{background:color-mix(in srgb,var(--now) 9%,var(--surface))}
+.lesson.is-now .time b{color:var(--now)}
+.lesson.is-past{opacity:.55}
+.gap{padding:5px 14px 5px 86px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg);border-top:1px solid var(--line)}
+.empty{padding:22px 16px;color:var(--muted);text-align:center}
+
+/* Semana */
+.gridbox{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--r)}
+table{border-collapse:collapse;width:100%;min-width:340px;font-variant-numeric:tabular-nums}
+th,td{padding:4px;text-align:center;border-top:1px solid var(--line)}
+thead th{border-top:0;font-size:12px;color:var(--muted);font-weight:700;padding-block:8px}
+thead th.today{color:var(--now)}
+tbody th{font-size:12px;color:var(--muted);font-weight:700;width:46px}
+td .cell{display:grid;place-items:center;min-height:38px;border-radius:7px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--c) 18%,var(--surface));color:var(--ink);border-left:3px solid var(--c)}
+tr.pausa th,tr.pausa td{padding:2px;font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;background:var(--bg)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+
+footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:grid;gap:6px}
+footer p{margin:0;max-width:62ch}
+
+@media (prefers-reduced-motion:no-preference){
+  .lesson,.next{animation:in .25s ease both}
+  @keyframes in{from{transform:translateY(4px)}to{transform:none}}
+}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo"><img src="data:image/png;base64,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" alt="EPALC – Escola Profissional António do Lago Cerqueira" width="110" height="40"><span class="eyebrow">Horário</span></div>
+      <label class="eyebrow" for="turmaSel" hidden>Turma</label>
+      <select id="turmaSel" aria-label="Turma"></select>
+    </div>
+    <div class="turma">
+      <h1 id="turmaNome">2-PI02</h1>
+      <span class="semana" id="semanaLbl"></span>
+    </div>
+    <div class="days" id="days" role="tablist" aria-label="Dias da semana"></div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <section class="next" id="next" aria-live="polite"></section>
+
+    <div class="seg" role="group" aria-label="Vista">
+      <button id="vDia" aria-pressed="true">Dia</button>
+      <button id="vSemana" aria-pressed="false">Semana</button>
+    </div>
+
+    <section id="dayView">
+      <div class="dayhead"><h3 id="dayTitle"></h3><small id="dayCount"></small></div>
+      <div class="list" id="list" style="margin-top:10px"></div>
+    </section>
+
+    <section id="weekView" hidden>
+      <div class="gridbox"><table id="grid"></table></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <footer>
+      <p><strong>EPALC – Escola Profissional António do Lago Cerqueira.</strong></p>
+      <p id="fonte"><strong>Versão piloto.</strong> A carregar o horário…</p>
+      <p>Na versão final, os dados vêm diretamente do e-Schooling, com sala e docente.</p>
+    </footer>
+  </div>
+</main>
+
+<script>
+/* ---------- Dados (mesma forma que o e-Schooling devolve: uma aula = dia + início + fim) ---------- */
+/* ---------- Dados: horario.json (atualizado todas as semanas) ---------- */
+const DATA_URL = location.protocol === "file:"
+  ? "https://darlslayer1982.github.io/horario-epalc/horario.json"
+  : "horario.json";
+let DISCIPLINAS = {};
+let HORARIOS = {};
+let META = null;
+let OFFLINE = false;
+
+/* ---------- Utilitários ---------- */
+const DIAS = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const DIAS_CURTOS = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+const MESES = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+const $ = s => document.querySelector(s);
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
+const toDate = (dia,hora) => new Date(`${dia}T${hora}:00`);
+const minutos = (a,b) => Math.round((b - a) / 60000);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+  set(k,v){ try { localStorage.setItem(k,v); } catch {} }
+};
+
+/* ---------- Estado ---------- */
+let turma = null;
+let diaSel = null;
+let vista = store.get("epalc-vista") === "semana" ? "semana" : "dia";
+
+function aulasDaTurma(){
+  return HORARIOS[turma].aulas.map(({dia, inicio:ini, fim, disciplina:disc, modulo}) => ({
+    dia, ini, fim, disc, modulo,
+    d: DISCIPLINAS[disc] || { nome: disc, abrev: disc, cor: "--c2" },
+    start: toDate(dia,ini), end: toDate(dia,fim)
+  })).sort((a,b) => a.start - b.start);
+}
+function diasDaSemana(){
+  const base = new Date(`${HORARIOS[turma].semana}T12:00:00`);
+  return Array.from({length:5}, (_,i) => { const d = new Date(base); d.setDate(base.getDate()+i); return d; });
+}
+
+/* ---------- Render ---------- */
+function renderTurmas(){
+  const sel = $("#turmaSel");
+  sel.innerHTML = Object.keys(HORARIOS).map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join("")
+    + `<option disabled>Mais turmas em breve</option>`;
+  sel.value = turma;
+  sel.onchange = () => { turma = sel.value; store.set("epalc-turma", turma); diaSel = null; renderAll(); };
+}
+
+function renderDias(){
+  const hoje = ymd(new Date());
+  const dias = diasDaSemana();
+  const f = dias[0], l = dias[4];
+  $("#turmaNome").textContent = turma;
+  $("#semanaLbl").textContent = `Semana de ${f.getDate()} a ${l.getDate()} ${MESES[l.getMonth()]} ${l.getFullYear()}`;
+
+  const keys0 = dias.map(ymd);
+  if(!diaSel || !keys0.includes(diaSel)){
+    diaSel = keys0.includes(hoje) ? hoje : keys0[0];
+  }
+  $("#days").innerHTML = dias.map(d => {
+    const k = ymd(d);
+    return `<button class="day" role="tab" data-dia="${k}" aria-selected="${k===diaSel}" aria-label="${DIAS[d.getDay()]} ${d.getDate()}">
+      ${k===hoje ? '<i class="hoje" aria-hidden="true"></i>' : ""}
+      <b>${DIAS_CURTOS[d.getDay()]}</b><span>${d.getDate()}</span></button>`;
+  }).join("");
+  $("#days").querySelectorAll(".day").forEach(b => b.onclick = () => {
+    diaSel = b.dataset.dia;
+    if(vista === "semana") setVista("dia");
+    renderDias(); renderDia();
+  });
+}
+
+function quando(d, now){
+  const k = ymd(d), hoje = ymd(now);
+  const am = new Date(now); am.setDate(now.getDate()+1);
+  if(k === hoje) return "Hoje";
+  if(k === ymd(am)) return "Amanhã";
+  return `${DIAS[d.getDay()]}, ${d.getDate()} ${MESES[d.getMonth()]}`;
+}
+
+function renderNext(){
+  const now = new Date();
+  const aulas = aulasDaTurma();
+  const atual = aulas.find(a => a.start <= now && now < a.end);
+  const prox = aulas.find(a => a.start > now);
+  const el = $("#next");
+
+  if(atual){
+    const resta = minutos(now, atual.end);
+    el.innerHTML = `<div class="row"><span class="eyebrow">Agora</span><span class="pill live">Faltam ${resta} min</span></div>
+      <h2>${esc(atual.d.nome)}</h2>
+      <p>${atual.ini}–${atual.fim}${prox && ymd(prox.start)===ymd(now) ? ` · a seguir: ${esc(prox.d.nome)} às ${prox.ini}` : ""}</p>`;
+  } else if(prox){
+    const falta = minutos(now, prox.start);
+    const d0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const d1 = new Date(prox.start.getFullYear(), prox.start.getMonth(), prox.start.getDate());
+    const nd = Math.round((d1 - d0) / 86400000);
+    const pill = falta < 60 ? `Daqui a ${falta} min` : nd === 0 ? "Hoje" : nd === 1 ? "Amanhã" : `Daqui a ${nd} dias`;
+    el.innerHTML = `<div class="row"><span class="eyebrow">Próxima aula</span><span class="pill">${esc(pill)}</span></div>
+      <h2>${esc(prox.d.nome)}</h2>
+      <p>${esc(quando(prox.start, now))} · ${prox.ini}–${prox.fim}</p>`;
+  } else {
+    el.innerHTML = `<span class="eyebrow">Fim da semana</span>
+      <h2>Sem mais aulas nesta semana</h2>
+      <p>O horário da próxima semana aparece aqui quando for publicado.</p>`;
+  }
+}
+
+function renderDia(){
+  const now = new Date();
+  const d = new Date(`${diaSel}T12:00:00`);
+  const aulas = aulasDaTurma().filter(a => a.dia === diaSel);
+  $("#dayTitle").textContent = `${DIAS[d.getDay()]}, ${d.getDate()} de ${MESES[d.getMonth()]}`;
+  $("#dayCount").textContent = aulas.length ? `${aulas.length} tempos · ${aulas[0].ini}–${aulas[aulas.length-1].fim}` : "";
+
+  if(!aulas.length){ $("#list").innerHTML = `<div class="empty">Sem aulas neste dia.</div>`; return; }
+
+  let html = "";
+  aulas.forEach((a,i) => {
+    if(i>0){
+      const g = minutos(aulas[i-1].end, a.start);
+      if(g >= 10) html += `<div class="gap">${g >= 40 ? "Almoço" : "Intervalo"} · ${g} min</div>`;
+    }
+    const cls = (a.start <= now && now < a.end) ? "is-now" : (a.end <= now ? "is-past" : "");
+    html += `<div class="lesson ${cls}">
+      <div class="time"><b>${a.ini}</b><span>${a.fim}</span></div>
+      <div class="subj">
+        <strong><i class="sw" style="--c:var(${a.d.cor})" aria-hidden="true"></i>${esc(a.d.nome)}</strong>
+        <div class="meta">${a.modulo ? `<span>UFCD ${esc(a.modulo)}</span>` : ""}${cls==="is-now" ? "<span>A decorrer</span>" : ""}</div>
+      </div>
+    </div>`;
+  });
+  $("#list").innerHTML = html;
+}
+
+function renderSemana(){
+  const dias = diasDaSemana();
+  const keys = dias.map(ymd);
+  const hoje = ymd(new Date());
+  const aulas = aulasDaTurma();
+  const slots = [...new Set(aulas.map(a => a.ini))].sort();
+
+  let html = `<thead><tr><th></th>${dias.map(d => `<th class="${ymd(d)===hoje?"today":""}">${DIAS_CURTOS[d.getDay()]} ${d.getDate()}</th>`).join("")}</tr></thead><tbody>`;
+  slots.forEach((s,i) => {
+    if(i>0 && s >= "13:00" && slots[i-1] < "13:00"){
+      html += `<tr class="pausa"><th></th><td colspan="5">Almoço</td></tr>`;
+    }
+    html += `<tr><th scope="row">${s}</th>`;
+    keys.forEach(k => {
+      const a = aulas.find(x => x.dia===k && x.ini===s);
+      html += a ? `<td><div class="cell" style="--c:var(${a.d.cor})" title="${esc(a.d.nome)}">${esc(a.d.abrev)}</div></td>` : `<td></td>`;
+    });
+    html += `</tr>`;
+  });
+  html += `</tbody>`;
+  $("#grid").innerHTML = html;
+
+  const usadas = [...new Set(aulas.map(a => a.disc))];
+  $("#legend").innerHTML = usadas.map(k => `<span><i class="sw" style="--c:var(${DISCIPLINAS[k].cor})"></i><b>${esc(DISCIPLINAS[k].abrev)}</b> ${esc(DISCIPLINAS[k].nome)}</span>`).join("");
+}
+
+function setVista(v){
+  vista = v; store.set("epalc-vista", v);
+  $("#vDia").setAttribute("aria-pressed", v==="dia");
+  $("#vSemana").setAttribute("aria-pressed", v==="semana");
+  $("#dayView").hidden = v !== "dia";
+  $("#weekView").hidden = v !== "semana";
+}
+
+function renderAll(){ renderTurmas(); renderDias(); renderNext(); renderDia(); renderSemana(); setVista(vista); }
+
+$("#vDia").onclick = () => setVista("dia");
+$("#vSemana").onclick = () => setVista("semana");
+function renderFonte(){
+  const t = META && META.atualizado ? new Date(META.atualizado) : null;
+  const quando = t ? `${t.getDate()} ${MESES[t.getMonth()]}, ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}` : "";
+  $("#fonte").innerHTML = `<strong>Versão piloto.</strong> ${esc(META?.fonte || "")}${quando ? ` · atualizado a ${quando}` : ""}. Pode haver trocas de última hora.`
+    + (OFFLINE ? `<br>Sem ligação à internet: a mostrar a última versão guardada.` : "");
+}
+
+async function carregar(){
+  try {
+    const r = await fetch(`${DATA_URL}?t=${Date.now()}`, { cache: "no-store" });
+    if(r.ok){
+      const data = await r.json();
+      store.set("epalc-dados", JSON.stringify(data));
+      OFFLINE = false;
+      return data;
+    }
+  } catch {}
+  try {
+    const guardado = JSON.parse(store.get("epalc-dados"));
+    if(guardado){ OFFLINE = true; return guardado; }
+  } catch {}
+  return null;
+}
+
+function aplicar(data){
+  META = data;
+  DISCIPLINAS = {};
+  for(const [k, v] of Object.entries(data.disciplinas || {})){
+    DISCIPLINAS[k] = { ...v, cor: `--c${v.cor || 2}` };
+  }
+  HORARIOS = data.turmas || {};
+  const guardada = store.get("epalc-turma");
+  if(!turma || !HORARIOS[turma]) turma = HORARIOS[guardada] ? guardada : Object.keys(HORARIOS)[0];
+}
+
+async function boot(){
+  const data = await carregar();
+  if(!data || !Object.keys(data.turmas || {}).length){
+    $("#next").innerHTML = `<span class="eyebrow">Sem horário</span><h2>Não foi possível carregar o horário</h2><p>Verifica a ligação à internet e abre a app outra vez.</p>`;
+    $("#fonte").innerHTML = "<strong>Versão piloto.</strong>";
+    return;
+  }
+  aplicar(data);
+  renderAll();
+  renderFonte();
+}
+
+boot();
+setInterval(() => { if(turma){ renderNext(); renderDia(); } }, 60000);
+document.addEventListener("visibilitychange", () => { if(document.visibilityState === "visible") boot(); });
+</script>
+
+</body>
+</html>
