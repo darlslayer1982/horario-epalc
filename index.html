@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#ffffff">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Horário">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Horário EPALC</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -109,6 +116,9 @@ tr.pausa th,tr.pausa td{padding:2px;font-size:11px;color:var(--muted);letter-spa
 .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);margin-top:10px}
 .legend span{display:inline-flex;align-items:center;gap:6px}
 
+.install{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:12px 14px;display:flex;gap:12px;align-items:flex-start;font-size:14px}
+.install p{margin:0;flex:1;min-width:0}
+.install button{font:inherit;font-size:13px;font-weight:700;border:0;background:transparent;color:var(--accent);cursor:pointer;padding:2px 4px}
 footer{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;display:grid;gap:6px}
 footer p{margin:0;max-width:62ch}
 
@@ -137,6 +147,10 @@ footer p{margin:0;max-width:62ch}
 
 <main>
   <div class="wrap">
+    <div class="install" id="install" hidden>
+      <p><strong>Instalar no iPhone:</strong> toca em <b>Partilhar</b> (o quadrado com a seta) e depois em <b>Adicionar ao ecrã principal</b>.</p>
+      <button id="installClose" aria-label="Fechar a dica de instalação">Fechar</button>
+    </div>
     <section class="next" id="next" aria-live="polite"></section>
 
     <div class="seg" role="group" aria-label="Vista">
@@ -385,6 +399,18 @@ async function boot(){
   renderAll();
   renderFonte();
 }
+
+(function(){
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const app = window.navigator.standalone === true || matchMedia("(display-mode: standalone)").matches;
+  if(ios && !app && location.protocol === "https:" && store.get("epalc-dica") !== "fechada"){
+    $("#install").hidden = false;
+    $("#installClose").onclick = () => { $("#install").hidden = true; store.set("epalc-dica","fechada"); };
+  }
+  if("serviceWorker" in navigator && location.protocol === "https:"){
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  }
+})();
 
 boot();
 setInterval(() => { if(turma){ renderNext(); renderDia(); } }, 60000);
