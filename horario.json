@@ -1,7 +1,7 @@
 {
   "versao": 1,
-  "atualizado": "2026-11-13T15:00:00+00:00",
-  "fonte": "Horário semanal enviado pela secretaria",
+  "atualizado": "2026-11-13T15:01:00+00:00",
+  "fonte": "Horário semanal da escola",
   "disciplinas": {
     "sql": {
       "nome": "Fundamentos da linguagem SQL",
@@ -32,10 +32,208 @@
       "nome": "Área de Integração",
       "abrev": "AI",
       "cor": 6
+    },
+    "aplinf": {
+      "nome": "Aplicações Informáticas",
+      "abrev": "AplInf",
+      "cor": 1
+    },
+    "orgemp": {
+      "nome": "Organização de Empresas",
+      "abrev": "OE",
+      "cor": 7
+    },
+    "lingprog": {
+      "nome": "Linguagens de Programação",
+      "abrev": "LP",
+      "cor": 2
+    },
+    "le1": {
+      "nome": "Língua Estrangeira I",
+      "abrev": "LE I",
+      "cor": 4
+    },
+    "eco": {
+      "nome": "Economia",
+      "abrev": "Eco",
+      "cor": 8
     }
   },
   "turmas": {
-    "2-PI02": {
+    "IG02": {
+      "semana": "2026-11-16",
+      "aulas": [
+        {
+          "dia": "2026-11-16",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "aplinf"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "aplinf"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "ai"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "orgemp"
+        },
+        {
+          "dia": "2026-11-16",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "orgemp"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "lingprog"
+        },
+        {
+          "dia": "2026-11-17",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "lingprog"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-18",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-19",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "09:00",
+          "fim": "10:00",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "10:15",
+          "fim": "11:15",
+          "disciplina": "le1"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "11:15",
+          "fim": "12:15",
+          "disciplina": "mat"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "13:10",
+          "fim": "14:10",
+          "disciplina": "por"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "14:10",
+          "fim": "15:10",
+          "disciplina": "eco"
+        },
+        {
+          "dia": "2026-11-20",
+          "inicio": "15:10",
+          "fim": "16:10",
+          "disciplina": "eco"
+        }
+      ]
+    },
+    "PI02": {
       "semana": "2026-11-16",
       "aulas": [
         {
